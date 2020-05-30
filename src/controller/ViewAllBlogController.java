@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.BlogDaoImpl;
 import model.Blog;
 
-
+// View Blog Servlet controller 
 @WebServlet(urlPatterns = {"/allblogs"})
 public class ViewAllBlogController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -26,7 +26,13 @@ public class ViewAllBlogController extends HttpServlet {
 		System.out.println("View All Blogs");
 		System.out.println("Getting all blog post");
 		BlogDaoImpl blogDAO = new BlogDaoImpl();
-		List<Blog> listBlog = blogDAO.selectAllBlogs();
+		List<Blog> listBlog = null;
+		try {
+			listBlog = blogDAO.selectAllBlogs();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		for(Blog bloglist:listBlog) {
 			System.out.println(bloglist.getBlogId());
 			System.out.println(bloglist.getBlogTitle());
@@ -37,6 +43,7 @@ public class ViewAllBlogController extends HttpServlet {
 		RequestDispatcher rd=this.getServletContext().getRequestDispatcher("/WEB-INF/views/blogView.jsp");
 		rd.forward(request, response);
 	}
+
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request,response);
